@@ -15,3 +15,4 @@ db.sqlite3
 coverage.xml
 htmlcov/
 .DS_Store
+.cursor/
