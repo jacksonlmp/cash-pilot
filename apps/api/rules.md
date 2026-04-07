@@ -609,22 +609,16 @@ Therefore:
 * explicit names
 * meaningful docstrings when needed
 
+## Code Style
+
+* Python formatting: `black` and `isort`.
+* Linting: `flake8`.
+* Comment policy: only test code may include comments; production/feature code must not include comments.
+
 ## Comments
 
-Comments should explain **why**, not obvious **what**.
-
-Bad:
-
-```python id="f6kbvq"
-# increment i
-i += 1
-```
-
-Better:
-
-```python id="t9zg9q"
-# Avoid duplicate reminder generation for the same billing cycle
-```
+Only test code may include comments.
+Production/feature code must not include comments.
 
 ## Utility files
 

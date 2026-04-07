@@ -65,6 +65,10 @@ test: ## Run pytest in API container (installs dev deps in ephemeral run)
 test-local: ## Run pytest in apps/api using local .venv (set POSTGRES_* for DB tests)
 	cd apps/api && . .venv/bin/activate && pytest $(PYTEST_ARGS)
 
+.PHONY: lint
+lint: ## Run black, isort, and flake8 inside API container
+	$(DC) exec -T $(API) sh -c "pip install --no-cache-dir -q -r requirements-dev.txt && cd /app && black . && isort . && flake8 . --exclude=.venv --config=.flake8"
+
 .PHONY: check
 check: ## Django system check (container must be up)
 	$(DC) exec -T $(API) python manage.py check
