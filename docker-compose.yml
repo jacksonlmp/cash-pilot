@@ -43,6 +43,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cashpilot}
       REDIS_URL: redis://redis:6379/0
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-django-insecure-dev-only-change-me}
+      DJANGO_PUBLIC_PORT: ${API_PORT:-8001}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1,[::1]}
     depends_on:
       db:
         condition: service_healthy
