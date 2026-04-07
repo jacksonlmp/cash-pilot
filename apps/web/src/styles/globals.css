@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-surface: 248 249 250;
+  --color-surface-container: 239 240 242;
+  --color-surface-container-low: 243 244 245;
+  --color-surface-container-lowest: 255 255 255;
+  --color-surface-container-high: 231 232 233;
+  --color-surface-tint: 109 35 249;
+  --color-primary: 35 0 96;
+  --color-primary-container: 59 0 150;
+  --color-secondary: 0 110 42;
+  --color-secondary-container: 92 253 128;
+  --color-error: 186 26 26;
+  --color-outline: 206 195 211;
+  --color-on-surface: 25 28 29;
+  --color-on-surface-variant: 76 68 81;
+}
+
+@layer base {
+  * {
+    @apply antialiased;
+  }
+
+  html {
+    color: rgb(var(--color-on-surface));
+    background: rgb(var(--color-surface));
+    font-family: Inter, sans-serif;
+  }
+
+  body {
+    @apply min-h-screen bg-surface text-on-surface;
+    background-image:
+      radial-gradient(circle at top left, rgba(109, 35, 249, 0.08), transparent 32%),
+      radial-gradient(circle at bottom right, rgba(92, 253, 128, 0.12), transparent 26%);
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid rgba(35, 0, 96, 0.4);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    background: rgba(248, 249, 250, 0.72);
+    backdrop-filter: blur(24px);
+  }
+
+  .ghost-border {
+    border: 1px solid rgba(206, 195, 211, 0.2);
+  }
+}

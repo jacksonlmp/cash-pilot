@@ -14,7 +14,7 @@ help: ## Show available targets
 
 .PHONY: up
 up: ## Start all services (detached)
-	$(DC) up -d
+	$(DC) up
 
 .PHONY: dev
 dev: ## Start all services, rebuild image if Dockerfile/requirements changed
