@@ -139,7 +139,14 @@ function delay<T>(payload: T, timeout = 180): Promise<T> {
 
 function buildSnapshot(): DashboardSnapshot {
   return {
-    summary: store.summary,
+    summary: {
+      currentBalance: store.summary.currentBalance ?? 0,
+      monthlyIncome: store.summary.monthlyIncome ?? 0,
+      monthlyExpenses: store.summary.monthlyExpenses ?? 0,
+      reserveStatus: store.summary.reserveStatus ?? "",
+      debtVisibility: store.summary.debtVisibility ?? "",
+      currency: "BRL",
+    },
     wallets: [...store.wallets],
     debts: [...store.debts],
     goals: [...store.goals],
@@ -180,13 +187,14 @@ export const mockDb = {
     store.transactions = [transaction, ...store.transactions];
     store.summary.currentBalance =
       transaction.kind === "income"
-        ? store.summary.currentBalance + transaction.amount
-        : store.summary.currentBalance - transaction.amount;
+        ? (store.summary.currentBalance ?? 0) + transaction.amount
+        : (store.summary.currentBalance ?? 0) - transaction.amount;
 
     if (transaction.kind === "income") {
-      store.summary.monthlyIncome += transaction.amount;
+      store.summary.monthlyIncome = (store.summary.monthlyIncome ?? 0) + transaction.amount;
     } else if (transaction.kind === "expense") {
-      store.summary.monthlyExpenses += transaction.amount;
+      store.summary.monthlyExpenses =
+        (store.summary.monthlyExpenses ?? 0) + transaction.amount;
     }
 
     const wallet = store.wallets.find((item) => item.id === transaction.walletId);

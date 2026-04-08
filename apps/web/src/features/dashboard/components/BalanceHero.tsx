@@ -10,7 +10,10 @@ type BalanceHeroProps = {
 };
 
 export function BalanceHero({ summary }: BalanceHeroProps) {
-  const monthlyNet = summary.monthlyIncome - summary.monthlyExpenses;
+  const monthlyIncome = summary.monthlyIncome ?? 0;
+  const monthlyExpenses = summary.monthlyExpenses ?? 0;
+  const currentBalance = summary.currentBalance ?? 0;
+  const monthlyNet = monthlyIncome - monthlyExpenses;
 
   return (
     <Card className="overflow-hidden bg-hero-gradient p-8 text-white shadow-floating">
@@ -22,7 +25,7 @@ export function BalanceHero({ summary }: BalanceHeroProps) {
           <div className="space-y-3">
             <p className="text-sm text-white/72">Saldo atual consolidado</p>
             <h2 className="font-display text-5xl font-extrabold tracking-tight md:text-6xl">
-              {formatCurrency(summary.currentBalance)}
+              {formatCurrency(currentBalance)}
             </h2>
             <p className="max-w-xl text-sm text-white/72">{summary.reserveStatus}</p>
           </div>
@@ -34,7 +37,7 @@ export function BalanceHero({ summary }: BalanceHeroProps) {
               <ArrowUpRight size={18} />
             </div>
             <p className="mt-4 font-display text-3xl font-bold">
-              {formatCurrency(summary.monthlyIncome)}
+              {formatCurrency(monthlyIncome)}
             </p>
           </div>
           <div className="rounded-[1.75rem] bg-white/10 p-5 backdrop-blur-sm">
@@ -43,7 +46,7 @@ export function BalanceHero({ summary }: BalanceHeroProps) {
               <ArrowDownRight size={18} />
             </div>
             <p className="mt-4 font-display text-3xl font-bold">
-              {formatCurrency(summary.monthlyExpenses)}
+              {formatCurrency(monthlyExpenses)}
             </p>
             <p className="mt-2 text-xs text-white/72">
               Resultado liquido do mes: {formatCurrency(monthlyNet)}

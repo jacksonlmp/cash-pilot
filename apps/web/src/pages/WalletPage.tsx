@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/Card";
 import { FeaturePreviewPage } from "@/components/layout/FeaturePreviewPage";
 import { useWallets } from "@/features/wallet/hooks/useWallets";
-import { formatCurrency, formatPercent } from "@/lib/formatters";
+import { formatCurrency } from "@/lib/formatters";
 
 export function WalletPage() {
   const query = useWallets();
@@ -9,8 +9,8 @@ export function WalletPage() {
   return (
     <FeaturePreviewPage
       eyebrow="Wallet"
-      title="Separacao clara entre liquidez, beneficios e reserva"
-      description="O modulo de wallet nasce preparado para evoluir sem misturar saldo real, credito e objetivos."
+      title="Carteiras e beneficios"
+      description="Leitura consolidada por tipo para separar saldo real, reserva e beneficios."
       query={query}
       chips={["Visao consolidada", "Liquidez", "Reserva", "Beneficios"]}
       renderContent={(wallets) => (
@@ -24,13 +24,8 @@ export function WalletPage() {
                     {wallet.type}
                   </p>
                 </div>
-                <p
-                  className={`text-sm ${
-                    wallet.trend >= 0 ? "text-secondary" : "text-error"
-                  }`}
-                >
-                  {wallet.trend >= 0 ? "+" : ""}
-                  {formatPercent(wallet.trend)}
+                <p className="text-sm text-on-surface-variant">
+                  Orcamento: {formatCurrency(wallet.monthlyBudget ?? 0)}
                 </p>
               </div>
               <p className="font-display text-4xl font-bold">{formatCurrency(wallet.balance)}</p>

@@ -6,4 +6,5 @@ export const queryKeys = {
   goals: ["goals"] as const,
   insights: ["insights"] as const,
   cards: ["cards"] as const,
+  expenseCategories: ["expense-categories"] as const,
 };

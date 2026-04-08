@@ -44,7 +44,9 @@ export function DebtPressureCard({
             Cartoes
           </p>
           {cards.map((card) => {
-            const usage = Math.round((card.used / card.limit) * 100);
+            const used = card.used ?? card.monthlySpend ?? 0;
+            const limit = card.limit ?? 1;
+            const usage = Math.round((used / limit) * 100);
             return (
               <div key={card.id} className="rounded-3xl bg-surface-container-lowest p-4">
                 <div className="flex justify-between gap-4">
