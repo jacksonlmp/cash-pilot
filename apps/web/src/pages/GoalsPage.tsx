@@ -9,19 +9,20 @@ export function GoalsPage() {
   return (
     <FeaturePreviewPage
       eyebrow="Goals"
-      title="Metas motivacionais com leitura simples"
-      description="O modulo de metas mostra progresso, prazo e distancia ate o alvo sem poluir a tela."
+      title="Metas e reservas"
+      description="Leitura simples de progresso para o planejamento financeiro principal."
       query={query}
       chips={["Prioritarias", "Em andamento", "Concluidas"]}
       renderContent={(goals) => (
         <div className="grid gap-4 lg:grid-cols-2">
           {goals.map((goal) => {
-            const progress = Math.min((goal.currentAmount / goal.targetAmount) * 100, 100);
+            const target = goal.monthlyTarget || goal.targetAmount;
+            const progress = Math.min((goal.currentAmount / target) * 100, 100);
             return (
               <Card key={goal.id} className="space-y-4">
                 <div>
                   <p className="text-sm font-medium">{goal.name}</p>
-                  <p className="text-xs text-on-surface-variant">{goal.dueLabel}</p>
+                  <p className="text-xs text-on-surface-variant">{goal.goalType}</p>
                 </div>
                 <p className="font-display text-4xl font-bold">{progress.toFixed(0)}%</p>
                 <div className="h-3 rounded-full bg-surface-container-low">
@@ -32,7 +33,7 @@ export function GoalsPage() {
                 </div>
                 <div className="flex justify-between text-sm text-on-surface-variant">
                   <span>{formatCurrency(goal.currentAmount)}</span>
-                  <span>{formatCurrency(goal.targetAmount)}</span>
+                  <span>{formatCurrency(target)}</span>
                 </div>
               </Card>
             );

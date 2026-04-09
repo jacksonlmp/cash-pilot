@@ -59,15 +59,15 @@ logs-api: ## Follow API logs only
 
 .PHONY: test
 test: ## Run pytest in API container (installs dev deps in ephemeral run)
-	$(DC) run --rm $(API) sh -c "pip install --no-cache-dir -q -r requirements-dev.txt && pytest $(PYTEST_ARGS)"
+	$(DC) run --rm -e SKIP_MIGRATIONS=1 $(API) sh -c "pip install --no-cache-dir -q -r requirements-dev.txt && pytest $(PYTEST_ARGS)"
 
 .PHONY: test-local
 test-local: ## Run pytest in apps/api using local .venv (set POSTGRES_* for DB tests)
 	cd apps/api && . .venv/bin/activate && pytest $(PYTEST_ARGS)
 
 .PHONY: lint
-lint: ## Run black, isort, and flake8 inside API container
-	$(DC) exec -T $(API) sh -c "pip install --no-cache-dir -q -r requirements-dev.txt && cd /app && black . && isort . && flake8 . --exclude=.venv --config=.flake8"
+lint: ## Auto-format with black and isort, then validate with flake8
+	$(DC) run --rm --no-deps -e SKIP_MIGRATIONS=1 $(API) sh -c "pip install --no-cache-dir -q -r requirements-dev.txt && cd /app && python -m black . && python -m isort . && python -m flake8 . --config=.flake8"
 
 .PHONY: check
 check: ## Django system check (container must be up)

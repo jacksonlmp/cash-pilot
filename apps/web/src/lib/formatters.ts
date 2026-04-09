@@ -1,25 +1,29 @@
-export function formatCurrency(value: number) {
+function toNumber(value: number | string) {
+  return typeof value === "string" ? Number(value) : value;
+}
+
+export function formatCurrency(value: number | string) {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
     maximumFractionDigits: 2,
-  }).format(value);
+  }).format(toNumber(value));
 }
 
-export function formatCompactCurrency(value: number) {
+export function formatCompactCurrency(value: number | string) {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
     notation: "compact",
     maximumFractionDigits: 1,
-  }).format(value);
+  }).format(toNumber(value));
 }
 
-export function formatPercent(value: number) {
+export function formatPercent(value: number | string) {
   return new Intl.NumberFormat("pt-BR", {
     style: "percent",
     maximumFractionDigits: 1,
-  }).format(value / 100);
+  }).format(toNumber(value) / 100);
 }
 
 export function formatDateLabel(date: string) {

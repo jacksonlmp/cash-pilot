@@ -10,8 +10,8 @@ export function DebtsPage() {
   return (
     <FeaturePreviewPage
       eyebrow="Debts"
-      title="Clareza sobre impacto mensal e payoff timeline"
-      description="A leitura prioriza o que pesa agora e quando cada compromisso deixa de pressionar o caixa."
+      title="Plano de quitacao e impacto mensal"
+      description="Leitura centrada no que ainda falta pagar e no ritmo da quitacao."
       query={query}
       chips={["Mais urgentes", "Impacto mensal", "Simulacao"]}
       renderContent={(debts) => (
@@ -20,10 +20,10 @@ export function DebtsPage() {
             <Card key={debt.id} className="space-y-4 bg-surface-container-low">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-sm font-medium text-on-surface">{debt.lender}</p>
+                  <p className="text-sm font-medium text-on-surface">{debt.title}</p>
                   <p className="text-xs text-on-surface-variant">Encerramento em {debt.payoffMonth}</p>
                 </div>
-                <Badge tone="alert">APR {debt.apr}%</Badge>
+                <Badge tone="alert">{debt.strategyName}</Badge>
               </div>
               <div className="grid gap-3 rounded-3xl bg-surface-container-lowest p-4 sm:grid-cols-2">
                 <div>
@@ -39,7 +39,7 @@ export function DebtsPage() {
                     Saldo
                   </p>
                   <p className="mt-2 font-display text-3xl font-bold">
-                    {formatCurrency(debt.outstandingBalance)}
+                    {formatCurrency(debt.totalRemaining ?? 0)}
                   </p>
                 </div>
               </div>
