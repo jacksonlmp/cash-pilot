@@ -20,5 +20,7 @@ class AlertsView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        serializer = AlertSerializer(get_alerts_summary(get_request_user(request)), many=True)
+        serializer = AlertSerializer(
+            get_alerts_summary(get_request_user(request)), many=True
+        )
         return Response({"results": serializer.data})

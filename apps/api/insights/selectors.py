@@ -27,9 +27,11 @@ def get_alerts_summary(user):
             }
         )
 
-    credit_card = Card.objects.filter(user=user, card_kind=Card.CardKind.CREDIT).order_by(
-        "display_order", "name"
-    ).first()
+    credit_card = (
+        Card.objects.filter(user=user, card_kind=Card.CardKind.CREDIT)
+        .order_by("display_order", "name")
+        .first()
+    )
     if credit_card and credit_card.total_limit > 0:
         percent = int((credit_card.monthly_spend / credit_card.total_limit) * 100)
         alerts.append(
@@ -50,7 +52,10 @@ def get_alerts_summary(user):
             {
                 "type": "benefit",
                 "title": "Caju esta acabando",
-                "description": f"Saldo de beneficios resta apenas R$ {benefit_wallet.balance:.2f}.",
+                "description": (
+                    "Saldo de beneficios resta apenas "
+                    f"R$ {benefit_wallet.balance:.2f}."
+                ),
                 "icon_key": "shopping_cart",
             }
         )
@@ -80,7 +85,9 @@ def get_dashboard_summary(user):
             expense_total += transaction.amount
 
     net_balance = income_total - expense_total
-    budget_total = sum(wallet.monthly_budget for wallet in Wallet.objects.filter(user=user))
+    budget_total = sum(
+        wallet.monthly_budget for wallet in Wallet.objects.filter(user=user)
+    )
     budget_progress = Decimal("0.00")
     remaining_budget = Decimal("0.00")
     if budget_total > 0:
@@ -99,7 +106,9 @@ def get_dashboard_summary(user):
             "expenses": str(expense_total.quantize(Decimal("0.01"))),
             "net_balance": str(net_balance.quantize(Decimal("0.01"))),
             "budget_progress_percent": str(budget_progress.quantize(Decimal("0.01"))),
-            "variable_budget_remaining": str(remaining_budget.quantize(Decimal("0.01"))),
+            "variable_budget_remaining": str(
+                remaining_budget.quantize(Decimal("0.01"))
+            ),
         },
         "reserve_goal": {
             "title": goal_summary["title"],

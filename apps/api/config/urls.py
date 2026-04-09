@@ -6,8 +6,11 @@ from config.views import health
 from insights.views import DashboardSummaryView
 
 try:
-    from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView,
-                                       SpectacularSwaggerView)
+    from drf_spectacular.views import (
+        SpectacularAPIView,
+        SpectacularRedocView,
+        SpectacularSwaggerView,
+    )
 except ModuleNotFoundError:
     SpectacularAPIView = None
     SpectacularRedocView = None
@@ -17,7 +20,11 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("health/", health, name="health"),
     path("api/users/", include("users.urls")),
-    path("api/dashboard/summary/", DashboardSummaryView.as_view(), name="dashboard-summary"),
+    path(
+        "api/dashboard/summary/",
+        DashboardSummaryView.as_view(),
+        name="dashboard-summary",
+    ),
     path("api/transactions/", include("transactions.urls")),
     path("api/categories/", include("categories.urls")),
     path("api/wallets/", include("wallets.urls")),

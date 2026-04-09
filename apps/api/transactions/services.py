@@ -46,7 +46,10 @@ def register_transaction(
             raise ValueError("Income transactions require a wallet.")
         wallet.balance += amount_decimal
         wallet.save(update_fields=["balance", "updated_at"])
-    elif kind == Transaction.TransactionKind.EXPENSE and payment_method == Transaction.PaymentMethod.CREDIT:
+    elif (
+        kind == Transaction.TransactionKind.EXPENSE
+        and payment_method == Transaction.PaymentMethod.CREDIT
+    ):
         if card is None:
             raise ValueError("Credit expenses require a card.")
         card.monthly_spend += amount_decimal
@@ -54,7 +57,9 @@ def register_transaction(
         card.save(update_fields=["monthly_spend", "current_balance", "updated_at"])
     elif kind == Transaction.TransactionKind.EXPENSE:
         if wallet is None:
-            raise ValueError("Expense transactions require a wallet unless paid by credit.")
+            raise ValueError(
+                "Expense transactions require a wallet unless paid by credit."
+            )
         wallet.balance -= amount_decimal
         wallet.save(update_fields=["balance", "updated_at"])
     return transaction

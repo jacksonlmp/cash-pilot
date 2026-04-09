@@ -18,7 +18,9 @@ class Wallet(models.Model):
     )
     name = models.CharField(max_length=120)
     wallet_type = models.CharField(max_length=20, choices=WalletType.choices)
-    balance = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
+    balance = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal("0.00")
+    )
     monthly_budget = models.DecimalField(
         max_digits=12, decimal_places=2, default=Decimal("0.00")
     )

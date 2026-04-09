@@ -4,7 +4,6 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
 
 from cards.models import Card
-from transactions.models import Transaction
 from transactions.selectors import get_filtered_transactions
 from transactions.serializers import (
     TransactionCreateSerializer,
@@ -40,7 +39,9 @@ class TransactionListCreateView(ListCreateAPIView):
         user = get_request_user(self.request)
         wallet = None
         if serializer.validated_data.get("wallet_id"):
-            wallet = Wallet.objects.get(id=serializer.validated_data["wallet_id"], user=user)
+            wallet = Wallet.objects.get(
+                id=serializer.validated_data["wallet_id"], user=user
+            )
         card = None
         if serializer.validated_data.get("card_id"):
             card = Card.objects.get(id=serializer.validated_data["card_id"], user=user)

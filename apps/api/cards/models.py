@@ -25,7 +25,9 @@ class Card(models.Model):
     monthly_spend = models.DecimalField(
         max_digits=12, decimal_places=2, default=Decimal("0.00")
     )
-    total_limit = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
+    total_limit = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal("0.00")
+    )
     closing_day = models.PositiveSmallIntegerField(default=1)
     display_order = models.PositiveSmallIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)

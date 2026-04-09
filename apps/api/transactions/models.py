@@ -53,11 +53,17 @@ class Transaction(models.Model):
     title = models.CharField(max_length=140)
     category = models.CharField(max_length=80)
     kind = models.CharField(max_length=20, choices=TransactionKind.choices)
-    payment_method = models.CharField(max_length=20, choices=PaymentMethod.choices, blank=True)
-    expense_type = models.CharField(max_length=20, choices=ExpenseType.choices, blank=True)
+    payment_method = models.CharField(
+        max_length=20, choices=PaymentMethod.choices, blank=True
+    )
+    expense_type = models.CharField(
+        max_length=20, choices=ExpenseType.choices, blank=True
+    )
     is_installment = models.BooleanField(default=False)
     installment_count = models.PositiveSmallIntegerField(default=1)
-    amount = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
+    amount = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal("0.00")
+    )
     notes = models.TextField(blank=True)
     occurred_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)

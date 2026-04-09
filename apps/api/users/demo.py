@@ -57,16 +57,65 @@ def seed_demo_data(user):
     base_datetime = timezone.make_aware(datetime(2026, 4, 7, 10, 0, 0))
     expense_category_map = {
         category.name: category
-        for category in Category.objects.filter(category_kind=Category.CategoryKind.EXPENSE)
+        for category in Category.objects.filter(
+            category_kind=Category.CategoryKind.EXPENSE
+        )
     }
     transactions = [
-        ("Salario principal", "Salário", Transaction.TransactionKind.INCOME, Decimal("8400.00"), None, None, False, 1),
-        ("Freela dashboard", "Extra", Transaction.TransactionKind.INCOME, Decimal("4000.00"), None, None, False, 1),
-        ("Aluguel", "Moradia", Transaction.TransactionKind.EXPENSE, Decimal("2350.00"), Transaction.PaymentMethod.PIX, Transaction.ExpenseType.ESSENTIAL, False, 1),
-        ("Mercado do mês", "Casa", Transaction.TransactionKind.EXPENSE, Decimal("975.00"), Transaction.PaymentMethod.DEBIT, Transaction.ExpenseType.ESSENTIAL, False, 1),
-        ("Jantar com amigos", "Lazer", Transaction.TransactionKind.EXPENSE, Decimal("1495.00"), Transaction.PaymentMethod.CREDIT, Transaction.ExpenseType.NON_ESSENTIAL, True, 5),
+        (
+            "Salario principal",
+            "Salário",
+            Transaction.TransactionKind.INCOME,
+            Decimal("8400.00"),
+            None,
+            None,
+            False,
+            1,
+        ),
+        (
+            "Freela dashboard",
+            "Extra",
+            Transaction.TransactionKind.INCOME,
+            Decimal("4000.00"),
+            None,
+            None,
+            False,
+            1,
+        ),
+        (
+            "Aluguel",
+            "Moradia",
+            Transaction.TransactionKind.EXPENSE,
+            Decimal("2350.00"),
+            Transaction.PaymentMethod.PIX,
+            Transaction.ExpenseType.ESSENTIAL,
+            False,
+            1,
+        ),
+        (
+            "Mercado do mês",
+            "Casa",
+            Transaction.TransactionKind.EXPENSE,
+            Decimal("975.00"),
+            Transaction.PaymentMethod.DEBIT,
+            Transaction.ExpenseType.ESSENTIAL,
+            False,
+            1,
+        ),
+        (
+            "Jantar com amigos",
+            "Lazer",
+            Transaction.TransactionKind.EXPENSE,
+            Decimal("1495.00"),
+            Transaction.PaymentMethod.CREDIT,
+            Transaction.ExpenseType.NON_ESSENTIAL,
+            True,
+            5,
+        ),
     ]
-    benefit_wallet = Wallet.objects.get(user=user, wallet_type=Wallet.WalletType.BENEFIT)
+    benefit_wallet = Wallet.objects.get(
+        user=user, wallet_type=Wallet.WalletType.BENEFIT
+    )
     credit_card = Card.objects.create(
         user=user,
         name="Cartao Principal",
@@ -81,7 +130,16 @@ def seed_demo_data(user):
         display_order=2,
     )
 
-    for index, (title, category, kind, amount, payment_method, expense_type, is_installment, installment_count) in enumerate(transactions):
+    for index, (
+        title,
+        category,
+        kind,
+        amount,
+        payment_method,
+        expense_type,
+        is_installment,
+        installment_count,
+    ) in enumerate(transactions):
         wallet = primary_wallet
         card = None
         expense_category = None

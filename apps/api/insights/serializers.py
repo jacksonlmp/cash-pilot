@@ -21,7 +21,9 @@ class MonthlySummarySerializer(serializers.Serializer):
     expenses = serializers.DecimalField(max_digits=12, decimal_places=2)
     net_balance = serializers.DecimalField(max_digits=12, decimal_places=2)
     budget_progress_percent = serializers.DecimalField(max_digits=7, decimal_places=2)
-    variable_budget_remaining = serializers.DecimalField(max_digits=12, decimal_places=2)
+    variable_budget_remaining = serializers.DecimalField(
+        max_digits=12, decimal_places=2
+    )
 
 
 class ReserveGoalSerializer(serializers.Serializer):

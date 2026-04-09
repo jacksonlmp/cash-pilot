@@ -81,7 +81,9 @@ class TransactionCreateSerializer(serializers.Serializer):
                     {"category": "Categoria de entrada inválida."}
                 )
             if not attrs.get("wallet_id"):
-                raise serializers.ValidationError({"wallet_id": "Selecione uma carteira."})
+                raise serializers.ValidationError(
+                    {"wallet_id": "Selecione uma carteira."}
+                )
             return attrs
 
         category_id = attrs.get("category_id")
@@ -99,7 +101,9 @@ class TransactionCreateSerializer(serializers.Serializer):
                     is_active=True,
                 )
             except Category.DoesNotExist as exc:
-                raise serializers.ValidationError({"category_id": "Categoria inválida."}) from exc
+                raise serializers.ValidationError(
+                    {"category_id": "Categoria inválida."}
+                ) from exc
         elif attrs.get("category"):
             try:
                 category = Category.objects.get(
@@ -108,39 +112,61 @@ class TransactionCreateSerializer(serializers.Serializer):
                     is_active=True,
                 )
             except Category.DoesNotExist as exc:
-                raise serializers.ValidationError({"category_id": "Selecione uma categoria."}) from exc
+                raise serializers.ValidationError(
+                    {"category_id": "Selecione uma categoria."}
+                ) from exc
         else:
-            raise serializers.ValidationError({"category_id": "Selecione uma categoria."})
+            raise serializers.ValidationError(
+                {"category_id": "Selecione uma categoria."}
+            )
 
         attrs["expense_category"] = category
         attrs["category"] = category.name
 
         if not payment_method:
-            raise serializers.ValidationError({"payment_method": "Selecione a forma de pagamento."})
+            raise serializers.ValidationError(
+                {"payment_method": "Selecione a forma de pagamento."}
+            )
 
         if payment_method == Transaction.PaymentMethod.CREDIT:
             if not card_id:
                 raise serializers.ValidationError({"card_id": "Selecione um cartão."})
             card = Card.objects.get(id=card_id, user=self.context["user"])
             if card.card_kind != Card.CardKind.CREDIT:
-                raise serializers.ValidationError({"card_id": "Selecione um cartão de crédito válido."})
+                raise serializers.ValidationError(
+                    {"card_id": "Selecione um cartão de crédito válido."}
+                )
             if wallet_id:
                 attrs["wallet_id"] = None
         else:
             if not wallet_id:
-                raise serializers.ValidationError({"wallet_id": "Selecione a origem do pagamento."})
+                raise serializers.ValidationError(
+                    {"wallet_id": "Selecione a origem do pagamento."}
+                )
             if card_id:
-                raise serializers.ValidationError({"card_id": "Cartão só pode ser usado em crédito."})
+                raise serializers.ValidationError(
+                    {"card_id": "Cartão só pode ser usado em crédito."}
+                )
 
         if payment_method == Transaction.PaymentMethod.BENEFIT:
             wallet = Wallet.objects.get(id=wallet_id, user=self.context["user"])
             if wallet.wallet_type != Wallet.WalletType.BENEFIT:
-                raise serializers.ValidationError({"wallet_id": "Selecione uma carteira de benefícios."})
+                raise serializers.ValidationError(
+                    {"wallet_id": "Selecione uma carteira de benefícios."}
+                )
 
-        if payment_method in (Transaction.PaymentMethod.DEBIT, Transaction.PaymentMethod.PIX):
+        if payment_method in (
+            Transaction.PaymentMethod.DEBIT,
+            Transaction.PaymentMethod.PIX,
+        ):
             wallet = Wallet.objects.get(id=wallet_id, user=self.context["user"])
-            if wallet.wallet_type not in (Wallet.WalletType.BANK, Wallet.WalletType.CASH):
-                raise serializers.ValidationError({"wallet_id": "Selecione uma carteira bancária ou em dinheiro."})
+            if wallet.wallet_type not in (
+                Wallet.WalletType.BANK,
+                Wallet.WalletType.CASH,
+            ):
+                raise serializers.ValidationError(
+                    {"wallet_id": "Selecione uma carteira bancária ou em dinheiro."}
+                )
 
         if payment_method != Transaction.PaymentMethod.CREDIT and installment_count > 1:
             raise serializers.ValidationError(
@@ -152,9 +178,17 @@ class TransactionCreateSerializer(serializers.Serializer):
                 {"is_installment": "Parcelamento só é permitido para crédito."}
             )
 
-        if payment_method == Transaction.PaymentMethod.CREDIT and is_installment and installment_count < 2:
+        if (
+            payment_method == Transaction.PaymentMethod.CREDIT
+            and is_installment
+            and installment_count < 2
+        ):
             raise serializers.ValidationError(
-                {"installment_count": "Informe pelo menos 2 parcelas para compra parcelada."}
+                {
+                    "installment_count": (
+                        "Informe pelo menos 2 parcelas para compra parcelada."
+                    )
+                }
             )
 
         if payment_method == Transaction.PaymentMethod.CREDIT and not is_installment:

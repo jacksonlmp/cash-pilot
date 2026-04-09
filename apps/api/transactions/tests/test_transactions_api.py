@@ -91,8 +91,14 @@ def test_create_transaction_endpoint_creates_credit_installment_expense():
     client = APIClient()
     categories_response = client.get("/api/categories/expense/")
     cards_response = client.get("/api/cards/summary/")
-    category_id = next(item["id"] for item in categories_response.json() if item["name"] == "Lazer")
-    card_id = next(item["id"] for item in cards_response.json()["results"] if item["card_kind"] == "credit")
+    category_id = next(
+        item["id"] for item in categories_response.json() if item["name"] == "Lazer"
+    )
+    card_id = next(
+        item["id"]
+        for item in cards_response.json()["results"]
+        if item["card_kind"] == "credit"
+    )
 
     response = client.post(
         "/api/transactions/",
@@ -121,7 +127,9 @@ def test_create_transaction_endpoint_rejects_credit_without_card():
     ensure_expense_categories()
     client = APIClient()
     categories_response = client.get("/api/categories/expense/")
-    category_id = next(item["id"] for item in categories_response.json() if item["name"] == "Lazer")
+    category_id = next(
+        item["id"] for item in categories_response.json() if item["name"] == "Lazer"
+    )
 
     response = client.post(
         "/api/transactions/",
@@ -148,7 +156,9 @@ def test_create_transaction_endpoint_rejects_installments_outside_credit():
     client = APIClient()
     categories_response = client.get("/api/categories/expense/")
     wallets_response = client.get("/api/wallets/summary/")
-    category_id = next(item["id"] for item in categories_response.json() if item["name"] == "Casa")
+    category_id = next(
+        item["id"] for item in categories_response.json() if item["name"] == "Casa"
+    )
     wallet_id = wallets_response.json()["results"][0]["id"]
 
     response = client.post(
