@@ -14,6 +14,7 @@ from wallets.models import Wallet
 def seed_demo_data(user):
     expense_categories = [
         "Lazer",
+        "Restaurante",
         "Alimentação",
         "Transporte",
         "Saúde",
@@ -104,7 +105,7 @@ def seed_demo_data(user):
         ),
         (
             "Jantar com amigos",
-            "Lazer",
+            "Restaurante",
             Transaction.TransactionKind.EXPENSE,
             Decimal("1495.00"),
             Transaction.PaymentMethod.CREDIT,

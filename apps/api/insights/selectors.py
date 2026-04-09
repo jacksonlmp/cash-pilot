@@ -1,5 +1,7 @@
 from decimal import Decimal
 
+from django.db.models import Q
+
 from cards.models import Card
 from transactions.models import Transaction
 from wallets.models import Wallet
@@ -12,8 +14,7 @@ def get_alerts_summary(user):
         for transaction in Transaction.objects.filter(
             user=user,
             kind=Transaction.TransactionKind.EXPENSE,
-            category="Restaurante",
-        )
+        ).filter(Q(category="Restaurante") | Q(expense_category__name="Restaurante"))
     )
     restaurant_budget = Decimal("1300.00")
     if restaurant_spend > restaurant_budget:
